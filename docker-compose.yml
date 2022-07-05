@@ -1,0 +1,12 @@
+version: '3'
+services:
+  app:
+    container_name: api-jasa-pengiriman
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - api:/usr/src/app/
+
+volumes:
+  api:

@@ -1,0 +1,931 @@
+basePath: /
+definitions:
+  admin.AuthLogin:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  admin.RegisterAdmin:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      no_hp:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - fullname
+    - no_hp
+    - password
+    type: object
+  admin.UpdateCustomer:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      id:
+        type: integer
+      no_hp:
+        type: string
+      password:
+        type: string
+      pin:
+        type: integer
+    required:
+    - email
+    - fullname
+    - id
+    type: object
+  customermitra.AuthLogin:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  customermitra.AuthStore:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  customermitra.InputPoin:
+    properties:
+      amount:
+        type: integer
+      customer_id:
+        type: integer
+      store_id:
+        type: integer
+    required:
+    - amount
+    - customer_id
+    - store_id
+    type: object
+  customermitra.InputTransactionBankEmoney:
+    properties:
+      amount:
+        type: integer
+      an_rekening:
+        type: string
+      bank_provider:
+        type: string
+      customer_id:
+        type: integer
+      nomor:
+        type: string
+      poin_account:
+        type: integer
+      poin_redeem:
+        type: integer
+    required:
+    - amount
+    - an_rekening
+    - bank_provider
+    - customer_id
+    - nomor
+    - poin_account
+    - poin_redeem
+    type: object
+  customermitra.RedeemPulsaData:
+    properties:
+      amount:
+        type: integer
+      bank_provider:
+        type: string
+      customer_id:
+        type: integer
+      nomor:
+        type: string
+      poin_account:
+        type: integer
+      poin_redeem:
+        type: integer
+    required:
+    - amount
+    - bank_provider
+    - customer_id
+    - nomor
+    - poin_account
+    - poin_redeem
+    type: object
+  customermitra.RegisterCustomer:
+    properties:
+      email:
+        type: string
+      fullname:
+        type: string
+      no_hp:
+        type: string
+      password:
+        type: string
+      pin:
+        type: integer
+    required:
+    - email
+    - fullname
+    - no_hp
+    - password
+    - pin
+    type: object
+  customermitra.RegisterStore:
+    properties:
+      alamat:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      store:
+        type: string
+    required:
+    - alamat
+    - email
+    - password
+    - store
+    type: object
+  customermitra.UpdateCustomer:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      no_hp:
+        type: string
+    required:
+    - id
+    type: object
+  response.Error:
+    properties:
+      code:
+        type: integer
+      messages:
+        type: string
+    type: object
+  response.Result:
+    properties:
+      code:
+        type: integer
+      messages:
+        type: string
+      result: {}
+    type: object
+host: api-poins-id.herokuapp.com/v1
+info:
+  contact: {}
+  description: Berikut API Poins ID
+  title: API Poins ID
+  version: "1.0"
+paths:
+  /admin:
+    get:
+      consumes:
+      - application/json
+      description: Dashboard for admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Dashboard Admin
+      tags:
+      - Admin
+    post:
+      consumes:
+      - application/json
+      description: create admin with data
+      parameters:
+      - description: admin
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/admin.RegisterAdmin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Create admin
+      tags:
+      - Admin
+  /admin/approve/{transactionid}:
+    post:
+      consumes:
+      - application/json
+      description: Approve Transaction
+      parameters:
+      - description: transaction_id
+        in: path
+        name: transactionid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Approve Transaction
+      tags:
+      - Admin
+  /admin/customer:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Customers for admin
+      parameters:
+      - description: id customer
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Delete Customers
+      tags:
+      - Admin
+    get:
+      consumes:
+      - application/json
+      description: Find customers for admin
+      parameters:
+      - description: pagination
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: pagination
+        in: query
+        name: page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Find customers
+      tags:
+      - Admin
+    put:
+      consumes:
+      - application/json
+      description: Transaction By Date for admin
+      parameters:
+      - description: admin
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/admin.UpdateCustomer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Transaction By Date
+      tags:
+      - Admin
+  /admin/customer/point:
+    put:
+      consumes:
+      - application/json
+      description: Update customer point for admin
+      parameters:
+      - description: id customer
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: point customer
+        in: query
+        name: point
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Update customer point
+      tags:
+      - Admin
+  /admin/history:
+    get:
+      consumes:
+      - application/json
+      description: Find History Customers for admin
+      parameters:
+      - description: pagination
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: pagination
+        in: query
+        name: page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Find History Customers
+      tags:
+      - Admin
+  /admin/historystore:
+    get:
+      consumes:
+      - application/json
+      description: History Store for admin
+      parameters:
+      - description: pagination
+        in: query
+        name: limit
+        required: true
+        type: integer
+      - description: pagination
+        in: query
+        name: page
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: History Store
+      tags:
+      - Admin
+  /admin/login:
+    post:
+      consumes:
+      - application/json
+      description: Login admin
+      parameters:
+      - description: admin
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/admin.AuthLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Login admin
+      tags:
+      - Admin
+  /admin/stock:
+    get:
+      consumes:
+      - application/json
+      description: Stock Product for admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Stock Product
+      tags:
+      - Admin
+    put:
+      consumes:
+      - application/json
+      description: Update Stock Product for admin
+      parameters:
+      - description: id product
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: balance product
+        in: query
+        name: balance
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Update Stock Product
+      tags:
+      - Admin
+  /admin/store:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Store for admin
+      parameters:
+      - description: id store
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Delete Store
+      tags:
+      - Admin
+  /admin/transaction:
+    get:
+      consumes:
+      - application/json
+      description: Transaction By Date for admin
+      parameters:
+      - description: "2022-01-01"
+        in: query
+        name: start
+        type: string
+      - description: "2022-12-31"
+        in: query
+        name: end
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Transaction By Date
+      tags:
+      - Admin
+  /admin/transaction/pending:
+    get:
+      consumes:
+      - application/json
+      description: Transaction Pending for Admin
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Transaction Pending
+      tags:
+      - Admin
+  /cashout:
+    post:
+      consumes:
+      - application/json
+      description: Redeem Cashout customer
+      parameters:
+      - description: inputdataemoney
+        in: body
+        name: InputDataCashout
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.InputTransactionBankEmoney'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Redeem Cashout
+      tags:
+      - Redeem
+  /customer:
+    post:
+      consumes:
+      - application/json
+      description: Login Customer
+      parameters:
+      - description: Customer
+        in: body
+        name: Customer
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.AuthLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Login
+      tags:
+      - Customer
+    put:
+      consumes:
+      - application/json
+      description: Updatecustomer
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: customer
+        in: body
+        name: Registercustomer
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.UpdateCustomer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/customermitra.UpdateCustomer'
+      summary: Updatecustomer
+      tags:
+      - Customer
+  /customer/register:
+    post:
+      consumes:
+      - application/json
+      description: Register customer
+      parameters:
+      - description: Register
+        in: body
+        name: Registercustomer
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.RegisterCustomer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Register
+      tags:
+      - Customer
+  /dethistory/{idtransaction}:
+    get:
+      consumes:
+      - application/json
+      description: Detail history customer
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: id transaction
+        in: path
+        name: idtransaction
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Detail history customer
+      tags:
+      - Customer
+  /emoney:
+    post:
+      consumes:
+      - application/json
+      description: Redeem Emoney customer
+      parameters:
+      - description: inputdataemoney
+        in: body
+        name: InputDataCashout
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.InputTransactionBankEmoney'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Redeem Emoney
+      tags:
+      - Redeem
+  /history:
+    get:
+      consumes:
+      - application/json
+      description: History Customer
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: pagination
+        in: query
+        name: limit
+        type: integer
+      - description: pagination
+        in: query
+        name: page
+        type: integer
+      - description: id customer
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: History Customer
+      tags:
+      - Customer
+  /paketdata:
+    post:
+      consumes:
+      - application/json
+      description: Redeem PaketData customer
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Input data paket data
+        in: body
+        name: InputDataPaketData
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.RedeemPulsaData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Redeem PaketData
+      tags:
+      - Redeem
+  /pulsa:
+    post:
+      consumes:
+      - application/json
+      description: Redeem Pulsa customer
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Input data pulsa
+        in: body
+        name: InputDataPulsa
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.RedeemPulsaData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Redeem Pulsa
+      tags:
+      - Redeem
+  /store:
+    post:
+      consumes:
+      - application/json
+      description: Register Store for Admin
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Register Store
+        in: body
+        name: RegisterStore
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.RegisterStore'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Register Store
+      tags:
+      - Admin
+  /store/login:
+    post:
+      consumes:
+      - application/json
+      description: Register Store for Admin
+      parameters:
+      - description: LoginStore
+        in: body
+        name: LoginStore
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.AuthStore'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Login Store
+      tags:
+      - Store
+  /store/poin:
+    post:
+      consumes:
+      - application/json
+      description: Input Poin Customer for Store
+      parameters:
+      - description: InputPoinStore
+        in: body
+        name: InputPoinStore
+        required: true
+        schema:
+          $ref: '#/definitions/customermitra.InputPoin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Result'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Error'
+      summary: Input Poin Store
+      tags:
+      - Store
+swagger: "2.0"
